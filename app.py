@@ -76,7 +76,11 @@ def upload():
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.json
-    user_input = data['message']
+    user_input = data.get('message')
+    if not user_input:
+        return jsonify({
+            'error': 'User Input empty'
+        })
     conversation_history = session.get('conversation_history', [])
     file_content = session.get('file_content', '')
 
